@@ -53,6 +53,7 @@ export interface McpArguments
   clearcutIncludePidHeader: boolean;
   slim: boolean;
   viaCli: boolean;
+  idleTimeoutMinutes?: number;
   redactNetworkHeaders: boolean;
   allowUnrestrictedPaths: boolean;
   filesystemRoot?: string[];
@@ -70,6 +71,11 @@ export const DEFAULT_FILESYSTEM_ROOT: string[] = [os.tmpdir()];
 // Each retained navigation can hold up to 1,000 network requests and 10,000
 // console messages, so the history is capped to avoid running out of memory.
 export const MAX_NAVIGATION_SAVED_LIMIT = 25;
+// Node's `setTimeout` fires immediately for delays above 2 ** 31 - 1 ms.
+export const MS_PER_MINUTE = 60_000;
+export const MAX_IDLE_TIMEOUT_MINUTES: number = Math.floor(
+  (2 ** 31 - 1) / MS_PER_MINUTE,
+);
 
 export const mcpOptions: McpOptions = {
   ...getCategoryOptions(),
@@ -268,6 +274,27 @@ export const mcpOptions: McpOptions = {
       'Set by Chrome DevTools CLI if the MCP server is started via the CLI client (this arg exists for usage stats)',
     hidden: true,
   },
+  idleTimeoutMinutes: {
+    type: 'number',
+    // Only the CLI daemon uses it, see `mcpOptionsForViaCli`.
+    hidden: true,
+    describe: `Minutes after which the CLI daemon exits if it has handled no tool call, for example \`--idleTimeoutMinutes=30\`. When it exits, it closes the browser, so all open pages are gone. The next command starts a new daemon with default flags, so re-run \`chrome-devtools start\` with your flags if you need them. \`status\` does not count as activity. Must be an integer between 1 and ${MAX_IDLE_TIMEOUT_MINUTES}. Disabled by default. Only used by the \`chrome-devtools\` CLI daemon; the MCP server ignores it.`,
+    coerce: (value: number | undefined): number | undefined => {
+      if (value === undefined) {
+        return;
+      }
+      if (
+        !Number.isInteger(value) ||
+        value <= 0 ||
+        value > MAX_IDLE_TIMEOUT_MINUTES
+      ) {
+        throw new Error(
+          `Invalid idleTimeoutMinutes ${value}. Expected an integer number of minutes between 1 and ${MAX_IDLE_TIMEOUT_MINUTES}.`,
+        );
+      }
+      return value;
+    },
+  },
   redactNetworkHeaders: {
     type: 'boolean',
     describe:
@@ -332,6 +359,10 @@ export const mcpOptionsForViaCli: McpOptions = {
   experimentalStructuredContent: {
     ...mcpOptions.experimentalStructuredContent,
     default: true,
+  },
+  idleTimeoutMinutes: {
+    ...mcpOptions.idleTimeoutMinutes,
+    hidden: false,
   },
   isolated: {
     ...mcpOptions.isolated,

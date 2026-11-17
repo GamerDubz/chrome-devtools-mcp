@@ -42,6 +42,26 @@ describe('chrome-devtools', {concurrency: true}, () => {
     await assertDaemonIsNotRunning(sessionId);
   });
 
+  it('forwards idleTimeoutMinutes to the daemon', async t => {
+    const sessionId = createCliSession(t);
+    const startResult = await runCli(
+      ['start', '--idleTimeoutMinutes=30'],
+      sessionId,
+    );
+    assert.strictEqual(
+      startResult.status,
+      0,
+      `start command failed: ${startResult.stderr}`,
+    );
+
+    const statusResult = await runCli(['status'], sessionId);
+    assert.strictEqual(statusResult.status, 0);
+    assert.ok(
+      statusResult.stdout.includes('"--idle-timeout-minutes=30"'),
+      `idleTimeoutMinutes was not forwarded: ${statusResult.stdout}`,
+    );
+  });
+
   it('can start the daemon with userDataDir', async t => {
     const sessionId = createCliSession(t);
     using userDataDir = createTempDir('chrome-devtools-test-');

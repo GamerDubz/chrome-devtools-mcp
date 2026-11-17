@@ -43,6 +43,7 @@ The CLI acts as a client to a background `chrome-devtools-mcp` daemon (uses Unix
 - **Automatic Start**: The first time you call a tool (e.g., `list_pages`), the CLI automatically starts the MCP server and the browser in the background if they aren't already running.
 - **Persistence**: The same background instance is reused for subsequent commands, preserving the browser state (open pages, cookies, etc.).
 - **Manual Control**: You can explicitly manage the background process using `start`, `stop`, and `status`. The `start` command forwards all subsequent arguments to the underlying MCP server (e.g., `--headless`, `--userDataDir`) but not all args are supported. Run `chrome-devtools start --help` for supported args. Headless is enabled by default. Isolated is enabled by default unless `--userDataDir` is provided.
+- **Idle Timeout**: By default, the daemon runs until you call `stop`. Start it with `--idleTimeoutMinutes` (e.g., `chrome-devtools start --idleTimeoutMinutes=30`) to exit after that many minutes without a tool call. Exiting closes the browser and all open pages. The next command starts a new daemon with default flags, so re-run `start` with your flags if you need them. Only the CLI daemon uses this flag; the `chrome-devtools-mcp` server ignores it.
 
 ```sh
 # Check if the daemon is running

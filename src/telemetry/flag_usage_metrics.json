@@ -498,5 +498,9 @@
   {
     "name": "category_network_mocks",
     "flagType": "boolean"
+  },
+  {
+    "name": "idle_timeout_minutes_present",
+    "flagType": "boolean"
   }
 ]

@@ -88,6 +88,41 @@ describe('ServerConfig', () => {
     });
   });
 
+  describe('idleTimeoutMinutes', () => {
+    for (const value of [1, 35791]) {
+      it(`accepts idleTimeoutMinutes of ${value} via the CLI`, () => {
+        const config = parseConfig([
+          '--viaCli',
+          `--idleTimeoutMinutes=${value}`,
+        ]);
+        assert.strictEqual(config.resolved.idleTimeoutMinutes, value);
+      });
+    }
+
+    it('leaves idleTimeoutMinutes unset by default', () => {
+      assert.strictEqual(
+        parseConfig(['--viaCli']).resolved.idleTimeoutMinutes,
+        undefined,
+      );
+    });
+
+    it('accepts idleTimeoutMinutes for the MCP server', () => {
+      assert.strictEqual(
+        parseConfig(['--idleTimeoutMinutes=30']).resolved.idleTimeoutMinutes,
+        30,
+      );
+    });
+
+    for (const value of ['0', '-1', '1.5', 'abc', '35792']) {
+      it(`rejects an invalid idleTimeoutMinutes of ${value}`, () => {
+        assert.throws(
+          () => parseConfig(['--viaCli', `--idleTimeoutMinutes=${value}`]),
+          /Invalid idleTimeoutMinutes .* Expected an integer number of minutes between 1 and 35791\./,
+        );
+      });
+    }
+  });
+
   describe('applyDefaults', () => {
     it('keeps explicit values and fills in defaults', () => {
       const args = ServerConfig.applyDefaults({headless: true}, {env: {}});
