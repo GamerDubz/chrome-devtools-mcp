@@ -1,0 +1,52 @@
+{
+  "name": "chrome-devtools-mcp",
+  "version": "1.13.0",
+  "description": "Reliable Chrome automation, debugging, and performance analysis for AI agents.",
+  "author": {
+    "name": "Google Chrome",
+    "url": "https://developer.chrome.com/"
+  },
+  "homepage": "https://developer.chrome.com/docs/devtools/agents",
+  "repository": "https://github.com/ChromeDevTools/chrome-devtools-mcp",
+  "license": "Apache-2.0",
+  "keywords": [
+    "browser",
+    "chrome",
+    "debugging",
+    "mcp",
+    "performance"
+  ],
+  "skills": [
+    "./skills"
+  ],
+  "mcpServers": {
+    "chrome-devtools": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "chrome-devtools-mcp@1.13.0"
+      ]
+    }
+  },
+  "interface": {
+    "displayName": "Chrome DevTools MCP",
+    "shortDescription": "Automate, debug, and profile Chrome with DevTools for agents",
+    "longDescription": "Chrome DevTools MCP gives coding agents reliable browser automation, in-depth debugging, and performance analysis through Chrome DevTools and Puppeteer. Install this plugin to register the chrome-devtools MCP server and the bundled skills under ./skills so agents can navigate pages, inspect the DOM, capture traces, and diagnose real browser issues.",
+    "developerName": "Google Chrome",
+    "category": "Coding",
+    "capabilities": [
+      "Browser automation and debugging",
+      "Performance analysis and tracing",
+      "MCP tools and agent skills for Chrome DevTools"
+    ],
+    "websiteURL": "https://developer.chrome.com/docs/devtools/agents",
+    "defaultPrompt": [
+      "Open the app in Chrome and take a snapshot of the page",
+      "Debug why this page is slow using Chrome DevTools performance tools",
+      "Check this page for accessibility issues"
+    ],
+    "brandColor": "#1A73E8",
+    "composerIcon": "https://github.com/ChromeDevTools/devtools-logo/blob/master/logos/svg/chrome-devtools-square-responsive.svg",
+    "logo": "https://github.com/ChromeDevTools/devtools-logo/blob/master/logos/svg/chrome-devtools-square-responsive.svg"
+  }
+}

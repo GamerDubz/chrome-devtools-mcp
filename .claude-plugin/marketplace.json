@@ -11,7 +11,17 @@
     {
       "name": "chrome-devtools-mcp",
       "source": "./",
-      "description": "Reliable automation, in-depth debugging, and performance analysis in Chrome using Chrome DevTools and Puppeteer"
+      "description": "Reliable automation, in-depth debugging, and performance analysis in Chrome using Chrome DevTools and Puppeteer",
+      "mcpServers": {
+        "chrome-devtools": {
+          "command": "npx",
+          "args": [
+            "--prefix",
+            "${CLAUDE_PLUGIN_DATA}",
+            "chrome-devtools-mcp@1.13.0"
+          ]
+        }
+      }
     }
   ]
 }

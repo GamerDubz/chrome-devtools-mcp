@@ -134,6 +134,8 @@ A plugin installs the MCP server and all skills, including the CLI skill:
 - **Claude Code:** Run `/plugin marketplace add ChromeDevTools/chrome-devtools-mcp`, then `/plugin install chrome-devtools-mcp@chrome-devtools-plugins`.
 - **Copilot / VS Code:** Run **Chat: Install Plugin From Source** and enter `ChromeDevTools/chrome-devtools-mcp`.
 - **Gemini CLI:** Run `gemini extensions install --auto-update https://github.com/ChromeDevTools/chrome-devtools-mcp`.
+- **Codex:** Install the plugin from this repository (`.codex-plugin`).
+- **Other agents:** Use `.agents/plugins/marketplace.json`, or add the root `.mcp.json` MCP config.
 
 See the [Client Configurations Guide][client-configurations-guide] for more information.
 

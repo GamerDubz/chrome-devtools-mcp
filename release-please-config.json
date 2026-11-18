@@ -37,6 +37,11 @@
         },
         {
           "type": "json",
+          "path": ".claude-plugin/marketplace.json",
+          "jsonpath": "plugins[0].mcpServers['chrome-devtools'].args[2]"
+        },
+        {
+          "type": "json",
           "path": ".claude-plugin/plugin.json",
           "jsonpath": "version"
         },
@@ -44,6 +49,16 @@
           "type": "json",
           "path": ".claude-plugin/plugin.json",
           "jsonpath": "mcpServers['chrome-devtools'].args[2]"
+        },
+        {
+          "type": "json",
+          "path": ".codex-plugin/plugin.json",
+          "jsonpath": "version"
+        },
+        {
+          "type": "json",
+          "path": ".codex-plugin/plugin.json",
+          "jsonpath": "mcpServers['chrome-devtools'].args[1]"
         },
         {
           "type": "json",
@@ -94,6 +109,11 @@
           "type": "json",
           "path": "mcp.json",
           "jsonpath": "mcpServers['chrome-devtools'].args[2]"
+        },
+        {
+          "type": "json",
+          "path": ".mcp.json",
+          "jsonpath": "mcpServers['chrome-devtools'].args[1]"
         }
       ]
     }
